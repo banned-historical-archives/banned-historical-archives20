@@ -23,6 +23,9 @@ const keys = [
     '王洪文',
     '张春桥',
     '姚文元',
+    '毛远新',
+    '毛主席',
+    '毛泽东',
     '翻案',
     // '揭发',
     '四人帮',
@@ -43,6 +46,7 @@ for (let i = 1; i <= 1231692; ++i) {
             '王洪文',
             '张春桥',
             '姚文元',
+            '毛泽东',
         ])
     )) continue;
     const dir = path.join(__dirname, 'selected', Math.floor(i / 1000).toString());
