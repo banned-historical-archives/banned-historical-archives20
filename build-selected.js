@@ -47,6 +47,7 @@ for (let i = 1; i <= 1231692; ++i) {
             '张春桥',
             '姚文元',
             '毛泽东',
+            '毛远新',
         ])
     )) continue;
     const dir = path.join(__dirname, 'selected', Math.floor(i / 1000).toString());
