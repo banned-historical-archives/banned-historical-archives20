@@ -38,7 +38,7 @@ for (let i = 1; i <= 1231692; ++i) {
     if (!(
         includes(json.ytitle, keys) || 
         includes(json.mtitle, keys) || 
-        includes(json.ftitle, keys) || includes(authors, [
+        includes(json.ftitle, keys) || includes(json.authors, [
             '江青',
             '王洪文',
             '张春桥',
