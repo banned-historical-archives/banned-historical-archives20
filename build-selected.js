@@ -1,4 +1,3 @@
-require('dotenv').config();
 const path = require('path');
 const fs = require('fs-extra');
 
@@ -33,7 +32,7 @@ const keys = [
 for (let i = 1; i <= 1231692; ++i) {
     if (i%1000 == 0) console.log(i);
     const content = fs.readFileSync(
-        path.join(process.env.WHB_HTML_PATH, Math.floor(i/1000).toString(), i.toString() + '.html')
+        path.join('json', Math.floor(i/1000).toString(), i.toString() + '.html')
     ).toString();
 
     const ytitle = find(content, '<P class=ytitle><B>', '</B>');
