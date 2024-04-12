@@ -7,48 +7,61 @@ function find(str, start, end) {
     return str.substring(a + start.length, b);
 }
 
-function includes(str, arr) {
+const keywords = ['张春桥','江青','王洪文','姚文元','毛远新', '毛泽东', '毛主席', '四人帮'];
+const keywords_special = [
+  {year_start: 1958, year_end: 1981, keyword: '邓小平'},
+  {year_start: 1958, year_end: 1981, keyword: '刘少奇'},
+  {year_start: 1958, year_end: 1961, keyword: '彭德怀'},
+  {year_start: 1950, year_end: 1981, keyword: '戚本禹'},
+
+  {year_start: 1966, year_end: 1983, keyword: '揭发'},
+  {year_start: 1966, year_end: 1978, keyword: '彭真'},
+  {year_start: 1966, year_end: 1978, keyword: '华国锋'},
+  {year_start: 1966, year_end: 1978, keyword: '汪东兴'},
+  {year_start: 1966, year_end: 1978, content_keyword: '邓榕'},
+  {year_start: 1966, year_end: 1978, content_keyword: '邓朴方'},
+
+
+];
+
+function normalize(str) {
     str = str.replace(/松江青[浦年]/g, '').replace(/[浙镇吴隆黄]江青/g, '');
+    return str;
+  }
+
+function includes(str, arr) {
     for (const i of arr) {
         if (str.indexOf(i) >= 0) {
-            console.log('#', i)
             return true;
         }
     }
     return false;
 }
 
-const keys = [
-    '江青',
-    '王洪文',
-    '张春桥',
-    '姚文元',
-    '毛远新',
-    '毛主席',
-    '毛泽东',
-    '翻案',
-    // '揭发',
-    '四人帮',
-    '王张江姚',
-    '天安门事件',
-];
 for (let i = 1; i <= 1231692; ++i) {
     if (i%1000 == 0) console.log(i);
-    const json = JSON.parse(fs.readFileSync(
+    const raw = fs.readFileSync(
         path.join('json', Math.floor(i/1000).toString(), i.toString() + '.json')
-    ).toString());
+    ).toString();
+    const json = JSON.parse(raw);
 
+    const normalized_title = normalize(json.ytitle + json.mtitle + json.ftitle);
+    const normalized_content = normalize(raw);
     if (!(
-        includes(json.ytitle, keys) || 
-        includes(json.mtitle, keys) || 
-        includes(json.ftitle, keys) || includes(json.authors.join(','), [
-            '江青',
-            '王洪文',
-            '张春桥',
-            '姚文元',
-            '毛泽东',
-            '毛远新',
-        ])
+        includes(normalized_title, keywords) || 
+        includes(json.authors.join(','), keywords) ||
+        keywords_special.reduce((m, k) => {
+          return m || (
+            k.year_start >= json.date[0].year && k.year_end <= json.date[0].year && (
+              k.keyword ? (
+                normalized_title.indexOf(k.keyword) >= 0 ||
+                json.authors.reduce((m,a) => {
+                  return m || a == k.keyword
+                }, false)
+              ) : normalized_content.indexOf(k.content_keyword) >= 0
+            )
+          )
+        }, false)
     )) continue;
     const dir = path.join(__dirname, 'selected', Math.floor(i / 1000).toString());
     fs.ensureDirSync(dir);
