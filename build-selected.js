@@ -7,7 +7,7 @@ function find(str, start, end) {
     return str.substring(a + start.length, b);
 }
 
-const keywords = ['张春桥','江青','王洪文','姚文元','毛远新', '毛泽东', '毛主席', '四人帮'];
+const keywords = ['张春桥','江青','王洪文','姚文元','毛远新', '毛泽东', '毛主席', '四人帮', '极左', '左倾', '右倾', '极右'];
 const keywords_special = [
   {year_start: 1958, year_end: 1981, keyword: '邓小平'},
   {year_start: 1958, year_end: 1981, keyword: '刘少奇'},
