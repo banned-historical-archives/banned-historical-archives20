@@ -14,3 +14,4 @@ export default {
     "resource_type": "book",
     "version": 2
   };
+
