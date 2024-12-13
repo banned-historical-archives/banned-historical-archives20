@@ -8,6 +8,7 @@ function find(str, start, end) {
 }
 
 const keywords = ['张春桥','江青','王洪文','姚文元','毛远新', '毛泽东', '毛主席', '四人帮', '极左', '左倾', '右倾', '极右','资产阶级', '修正主义', '剥削', '奴隶','文革','文化大革命', '叶剑英', '北决扬', '鲁礼安', '无政府'];
+const ckeywords = ['张春桥','江青','王洪文','姚文元','毛远新', '四人帮', '极左', '左倾', '右倾', '极右','资产阶级', '修正主义', '剥削', '奴隶','文革','文化大革命', '北决扬', '鲁礼安', '无政府'];
 const keywords_special = [
   {year_start: 1958, year_end: 1981, keyword: '邓小平'},
   {year_start: 1958, year_end: 1981, keyword: '刘少奇'},
@@ -50,6 +51,7 @@ for (let i = 1; i <= 1231692; ++i) {
     if (!(
         includes(normalized_title, keywords) || 
         includes(json.authors.join(','), keywords) ||
+        includes(normalized_content, ckeywords) ||
         keywords_special.reduce((m, k) => {
           return m || (
             k.year_start <= json.date[0].year && k.year_end >= json.date[0].year && (
